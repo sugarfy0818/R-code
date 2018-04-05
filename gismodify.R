@@ -7,6 +7,7 @@ library(plyr)
 library(reshape)
 library(gdata)
 library(tidyverse)
+#This file is to modify the input data file of WASSI
 #Read data files, total 8
 data1=read.dbf("C:/Users/yfang.local/Desktop/R/2040 lclu/r4_2040.dbf")
 data2=read.dbf("C:/Users/yfang.local/Desktop/R/2040 lclu/r10_2040.dbf")
@@ -81,14 +82,25 @@ final[is.na(final)]<-0
 attach(final)
 final$sum<-cropland+deciduous+evergreen+mixedforest+Grassland+shrubland+Wetlands+Water+Urban+barren
 
+
+
+lc2006<-read.table("F:/yfang_project_folder/gisdata/landuse/txt/CELLINFO_US_HUC12_2006.txt",
+                   header=TRUE,sep=",")
+lc06<-lc2006[1]
+
+total<-merge(lc06,final,by="HUC_12",all.x=TRUE)
+
+
+
+
 #-----****
 #Subset the hucs which has no data
-emptyhuc<-subset(final,final$sum=="0")
+emptyhuc<-subset(total,total$sum=="0")
 epthucno<-emptyhuc[1]
 
-write.table(final,'C:/Users/yfang.local/Desktop/R/WASSI input/inputSSP5_US_HUC12.txt',sep=',',row.names=F)
+write.table(total,'C:/Users/yfang.local/Desktop/R/WASSI input/inputSSP5_US_HUC12.txt',sep=',',row.names=F)
 
-write.dbf(final,file="C:/Users/yfang.local/Desktop/R/WASSI input/lc2040final.dbf",factor2char=TRUE)
+write.dbf(total,file="C:/Users/yfang.local/Desktop/R/WASSI input/lc2040final.dbf",factor2char=TRUE)
 
 
 

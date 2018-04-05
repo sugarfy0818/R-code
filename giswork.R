@@ -4,7 +4,7 @@ library(ggpubr)
 library(dplyr)
 library(foreign)
 library(plyr)
-
+#calculate percentage of landcover in each huc
 
 #[1]--------import selected huc dbf file R4
 library("foreign")
